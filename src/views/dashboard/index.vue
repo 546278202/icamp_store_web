@@ -1,56 +1,62 @@
 <template>
   <div class="dashboard-container">
-    <PanelGroup />
-    <OrderGroup />
+    <PanelGroup/>
+    <OrderGroup/>
     <div style="margin-bottom:35px; overflow: hidden;">
       <h3>运营快捷入口</h3>
       <ul class="icon-list">
         <li>
           <span>
-            <i class="el-icon-upload" />
-            <span class="icon-name">el-icon-upload</span>
+            <i class="el-icon-circle-plus"/>
+            <span class="icon-name">添加商品</span>
           </span>
         </li>
         <li>
           <span>
-            <i class="el-icon-zoom-out" />
-            <span class="icon-name">el-icon-zoom-out</span>
+            <i class="el-icon-tickets"/>
+            <span class="icon-name">订单列表</span>
           </span>
         </li>
         <li>
           <span>
-            <i class="el-icon-upload" />
-            <span class="icon-name">el-icon-upload</span>
+            <i class="el-icon-setting"/>
+            <span class="icon-name">用户管理</span>
           </span>
         </li>
         <li>
           <span>
-            <i class="el-icon-zoom-out" />
-            <span class="icon-name">el-icon-zoom-out</span>
+            <i class="el-icon-sort"/>
+            <span class="icon-name">交易统计</span>
           </span>
         </li>
         <li>
           <span>
-            <i class="el-icon-upload" />
-            <span class="icon-name">el-icon-upload</span>
+            <i class="el-icon-mobile-phone"/>
+            <span class="icon-name">短信营销</span>
           </span>
         </li>
         <li>
           <span>
-            <i class="el-icon-zoom-out" />
-            <span class="icon-name">el-icon-zoom-out</span>
+            <i class="el-icon-news"/>
+            <span class="icon-name">广告管理</span>
           </span>
         </li>
         <li>
           <span>
-            <i class="el-icon-upload" />
-            <span class="icon-name">el-icon-upload</span>
+            <i class="el-icon-edit-outline"/>
+            <span class="icon-name">专题管理</span>
           </span>
         </li>
         <li>
           <span>
-            <i class="el-icon-zoom-out" />
-            <span class="icon-name">el-icon-zoom-out</span>
+            <i class="el-icon-time"/>
+            <span class="icon-name">秒杀管理</span>
+          </span>
+        </li>
+        <li>
+          <span>
+            <i class="el-icon-goods"/>
+            <span class="icon-name">新品推荐</span>
           </span>
         </li>
       </ul>
@@ -66,15 +72,15 @@
           </li>
           <li>
             <div style="height:30px;color:#f04844;">100</div>
-            <span>已下架</span>
+            <span>已上架</span>
           </li>
           <li>
             <div style="height:30px;color:#f04844;">100</div>
-            <span>已下架</span>
+            <span>库存紧张</span>
           </li>
           <li>
-            <div style="height:30px;color:#f04844;">100</div>
-            <span>已下架</span>
+            <div style="height:30px;color:#f04844;">500</div>
+            <span>全部商品</span>
           </li>
         </ul>
       </div>
@@ -84,34 +90,33 @@
         <ul class="icon-list1">
           <li>
             <div style="height:30px;color:#f04844;">100</div>
-            <span>已下架</span>
+            <span>今日新增</span>
           </li>
           <li>
             <div style="height:30px;color:#f04844;">100</div>
-            <span>已下架</span>
+            <span>昨日新增</span>
           </li>
           <li>
             <div style="height:30px;color:#f04844;">100</div>
-            <span>已下架</span>
+            <span>本月新增</span>
           </li>
           <li>
             <div style="height:30px;color:#f04844;">100</div>
-            <span>已下架</span>
+            <span>会员总数</span>
           </li>
         </ul>
       </div>
     </div>
 
-    <LineChart />
+    <LineChart/>
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
-import PanelGroup from './components/PanelGroup'
-import OrderGroup from './components/OrderGroup'
-import LineChart from './components/LineChart'
+import { mapGetters } from "vuex";
+import PanelGroup from "./components/PanelGroup";
+import OrderGroup from "./components/OrderGroup";
+import LineChart from "./components/LineChart";
 export default {
-
   components: {
     PanelGroup,
     OrderGroup,
@@ -119,14 +124,14 @@ export default {
   },
   data() {
     return {
-      name: '12345'
-    }
+      name: "12345"
+    };
   },
 
   beforeMount() {},
   mounted() {},
   methods: {}
-}
+};
 </script>
 <style lang="scss" scoped>
 .dashboard-container {

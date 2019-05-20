@@ -26,42 +26,37 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: '首页',
-      component: () => import('@/views/dashboard/index')
-      // meta: { title: '首页', icon: 'dashboard' }
+      name: 'dashboard',
+      component: () => import('@/views/dashboard/index'),
+      meta: { title: '首页', icon: 'dashboard', auth: true }
     }]
   },
-  // 首页
+  // 基本信息
   {
-    path: '/dashboard',
+    path: '/base',
     component: Layout,
-    redirect: '/dashboard',
-    name: 'dashboard',
-    meta: { title: '首页', icon: 'dashboard' },
+    redirect: '/base',
+    name: 'base',
+    meta: { title: '基本信息', icon: 'documentation' },
     children: [
-      {
-        path: 'dashboard',
-        name: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
-        meta: { title: '系统首页', icon: '' }
-      },
+
       {
         path: 'accountset',
         name: 'accountset',
-        component: () => import('@/views/dashboard/accountset'),
-        meta: { title: '账户设置', icon: '' }
+        component: () => import('@/views/base/accountset'),
+        meta: { title: '账户设置', icon: '', auth: true }
       },
       {
         path: 'system',
         name: 'system',
-        component: () => import('@/views/dashboard/system'),
-        meta: { title: '系统信息', icon: '' }
+        component: () => import('@/views/base/system'),
+        meta: { title: '系统信息', icon: '', auth: true }
       },
       {
         path: 'log',
         name: 'log',
-        component: () => import('@/views/dashboard/log'),
-        meta: { title: '登陆日志', icon: '' }
+        component: () => import('@/views/base/log'),
+        meta: { title: '登陆日志', icon: '', auth: true }
       }
     ]
   },
@@ -77,25 +72,25 @@ export const constantRoutes = [
         path: 'list',
         name: 'list',
         component: () => import('@/views/shop/list'),
-        meta: { title: '商品列表', icon: '' }
+        meta: { title: '商品列表', icon: '', auth: true }
       },
       {
         path: 'addshop1',
         name: 'addshop1',
         component: () => import('@/views/shop/addshop/addshop1'),
-        meta: { title: '添加商品', icon: '' }
+        meta: { title: '添加商品', icon: '', auth: true }
       },
       {
         path: 'addshop2',
         name: 'addshop2',
         component: () => import('@/views/shop/addshop/addshop2'),
-        // meta: { title: '添加商品', icon: '' }
+        meta: { title: '添加商品', icon: '', auth: true }
       },
       {
         path: 'shoptype',
         name: 'shoptype',
         component: () => import('@/views/shop/shoptype'),
-        meta: { title: '商品类型', icon: '' }
+        meta: { title: '商品类型', icon: '', auth: true }
       }
     ]
   },
@@ -107,17 +102,17 @@ export const constantRoutes = [
     name: 'order',
     meta: { title: '订单', icon: 'list' },
     children: [
-      // {
-      //   path: 'orderlist',
-      //   name: 'orderlist',
-      //   component: () => import('@/views/order/orderlist'),
-      //   meta: { title: '订单列表', }
-      // },
+      {
+        path: 'orderlist',
+        name: 'orderlist',
+        component: () => import('@/views/order/orderlist'),
+        meta: { title: '订单列表', auth: true }
+      },
       {
         path: 'refund',
         name: 'refund',
         component: () => import('@/views/order/refund'),
-        meta: { title: '退款申请', }
+        meta: { title: '退款申请', auth: true }
       }
 
     ]
@@ -134,7 +129,35 @@ export const constantRoutes = [
         path: 'userlist',
         name: 'userlist',
         component: () => import('@/views/user/userlist'),
-        meta: { title: '用户列表', icon: '' }
+        meta: { title: '用户列表', icon: '', auth: true }
+      },
+      {
+        path: 'tablist',
+        name: 'tablist',
+        component: () => import('@/views/user/tablist'),
+        meta: { title: '标签管理', icon: '', auth: true }
+      }
+    ]
+  },
+  // 内容
+  {
+    path: '/content',
+    component: Layout,
+    redirect: '/content',
+    name: 'content',
+    meta: { title: '内容', icon: 'content' },
+    children: [
+      {
+        path: 'contentlist',
+        name: 'contentlist',
+        component: () => import('@/views/content/contentlist'),
+        meta: { title: '内容列表', icon: '', auth: true }
+      },
+      {
+        path: 'type_admin',
+        name: 'type_admin',
+        component: () => import('@/views/content/type_admin'),
+        meta: { title: '分类管理', icon: '', auth: true }
       }
     ]
   },
@@ -151,6 +174,6 @@ const router = createRouter()
 
 export function resetRouter() {
   const newRouter = createRouter()
-  router.matcher = newRouter.matcher 
+  router.matcher = newRouter.matcher
 }
 export default router

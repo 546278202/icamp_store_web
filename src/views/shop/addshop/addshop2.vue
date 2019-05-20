@@ -13,19 +13,6 @@
       </el-form-item>
     </el-form>
 
-    <!-- <el-table :data="tableData" border style="width: 100%">
-      <el-table-column prop="date" label="分期"></el-table-column>
-      <el-table-column prop="date" label="主题"></el-table-column>
-      <el-table-column prop="date" label="项目编号"></el-table-column>
-      <el-table-column prop="date" label="出发日期"></el-table-column>
-      <el-table-column prop="date" label="返回日期"></el-table-column>
-      <el-table-column prop="date" label="报名截止"></el-table-column>
-      <el-table-column prop="date" label="天数"></el-table-column>
-      <el-table-column prop="date" label="价格"></el-table-column>
-      <el-table-column prop="date" label="剩余名额"></el-table-column>
-      <el-table-column prop="date" label="总名额"></el-table-column>
-      <el-table-column prop="date" label="操作"><a>编辑</a></el-table-column>
-    </el-table>-->
     <el-table :data="tableData" border style="width: 100%">
       <el-table-column prop="date" label="分期">
         <template slot-scope="scope">
@@ -54,13 +41,11 @@
     <div style="margin-top:30px;">
       <h3>上传商品轮播图</h3>
       <el-upload
-        auto-upload="false"
         action="https://jsonplaceholder.typicode.com/posts/"
         list-type="picture-card"
         :on-preview="handlePictureCardPreview"
         :on-remove="handleRemove"
         :on-remove1="handleRemove1"
-
         multiple
       >
         <i class="el-icon-plus"></i>
@@ -86,16 +71,25 @@
       </el-dialog>
     </div>
 
-     <!-- 父文本编辑器 -->
-    <div style="margin-top:30px;">
+    <!-- 父文本编辑器 -->
+    <div style="padding:30px 0 50px 0;">
       <h3>详情介绍</h3>
-      
+      <abc/>
+    </div>
+    <div style="padding: 30px 0;">
+      <!-- 按钮组 -->
+      <el-button type="primary">上一步</el-button>
+      <el-button type="primary">预览</el-button>
+      <el-button type="primary">提交商品</el-button>
     </div>
   </div>
 </template>
 <script>
-import VueQuillEditor from 'vue-quill-editor'
+import abc from "../components/abc";
 export default {
+  components: {
+    abc
+  },
   data() {
     return {
       dialogImageUrl: "",
@@ -136,7 +130,7 @@ export default {
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
-      handleRemove1(file, fileList) {
+    handleRemove1(file, fileList) {
       console.log(file, fileList);
     },
     handlePictureCardPreview(file) {

@@ -89,18 +89,34 @@ export default {
     // 登陆
     handleLogin() {
       this.loading = true;
-      setTimeout(() => {
-        sessionStorage.baseUser = JSON.stringify(this.loginForm);
-        // this.$store.commit('changeLogin', JSON.stringify(loginForm));
-        this.loading = false;
-        this.$router.push({ path: "/dashboard" });
-      }, 2000);
+      let parameter = {
+        time: "2019-05-10",
+        pageNum: 1,
+        pageSize: 20
+      };
+      this.$http
+        .post(
+          this.MyGlobal.BASE_URL + "/mall_api/shop/get_ware_list",
+          parameter
+        )
+        .then(response => {
+          console.log(response);
+          if (response.data.code == 0 && response.data.success == true) {
+            sessionStorage.baseUser = JSON.stringify(this.loginForm);
+              console.log(this.$store)
+              // this.$store.commit('changeLogin', JSON.stringify(this.loginForm));
+
+            this.$router.push({ path: "/dashboard" });
+            this.loading = false;
+          }
+        })
+        .catch(error => {});
     }
   }
 };
 </script>
 <style lang="scss">
-@supports (-webkit-mask: none) and (not (cater-color:"#fff")) {
+@supports (-webkit-mask: none) and (not (cater-color: "#fff")) {
   .login-container .el-input input {
     color: #fff;
   }

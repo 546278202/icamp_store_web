@@ -104,10 +104,10 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-// import dialogForm from "./components/dialogForm";
+import dialogForm from "./components/dialogForm";
 export default {
   components: {
-    // dialogForm
+    dialogForm
   },
   data() {
     return {
