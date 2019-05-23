@@ -103,7 +103,8 @@ export default {
           console.log(response);
           if (response.data.code == 0 && response.data.success == true) {
             sessionStorage.baseUser = JSON.stringify(this.loginForm);
-              console.log(this.$store)
+            this.$store.state.teststore.baseUser=JSON.stringify(this.loginForm)
+              // 改变vuex中的登陆状态
               // this.$store.commit('changeLogin', JSON.stringify(this.loginForm));
 
             this.$router.push({ path: "/dashboard" });
