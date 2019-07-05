@@ -1,23 +1,12 @@
 'use strict'
 const path = require('path')
-const defaultSettings = require('./src/settings.js')
-
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'vue Admin Template' // page title
+const name = 'IDEAS后台管理系统'
 const port = 9528 // dev port
-
-// All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
-  /**
-   * You will need to set publicPath if you plan to deploy your site under a sub path,
-   * for example GitHub Pages. If you plan to deploy your site to https://foo.github.io/bar/,
-   * then publicPath should be set to "/bar/".
-   * In most cases please use '/' !!!
-   * Detail: https://cli.vuejs.org/config/#publicpath
-   */
   publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
@@ -52,7 +41,6 @@ module.exports = {
   chainWebpack(config) {
     config.plugins.delete('preload') // TODO: need test
     config.plugins.delete('prefetch') // TODO: need test
-
     // set svg-sprite-loader
     config.module
       .rule('svg')
@@ -81,14 +69,11 @@ module.exports = {
       })
       .end()
 
-    config
-      // https://webpack.js.org/configuration/devtool/#development
-      .when(process.env.NODE_ENV === 'development',
+    config.when(process.env.NODE_ENV === 'development',
         config => config.devtool('cheap-source-map')
       )
 
-    config
-      .when(process.env.NODE_ENV !== 'development',
+    config.when(process.env.NODE_ENV !== 'development',
         config => {
           config
             .plugin('ScriptExtHtmlWebpackPlugin')

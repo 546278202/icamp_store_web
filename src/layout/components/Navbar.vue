@@ -17,11 +17,12 @@
             <el-dropdown-item>首页</el-dropdown-item>
           </router-link>
           <el-dropdown-item divided>
-            <span style="display:block;" @click="logout">退出登陆</span>
+            <span style="display:block;" @click="getConfirm">退出登陆</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+
   </div>
 </template>
 
@@ -38,12 +39,29 @@ export default {
     ...mapGetters(["sidebar"])
   },
   methods: {
+    // 询问框
+     getConfirm() {
+        this.$confirm('您确定要退出?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.logout()
+        }).catch(() => {
+        });
+    },
     toggleSideBar() {
       this.$store.dispatch("app/toggleSideBar");
     },
+    // 退出登录
     async logout() {
-      await this.$store.dispatch("user/logout");
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+      // 清空缓存中的登陆信息
+      localStorage.setItem('baseUser','');
+      // 清空store中的登陆信息
+      this.$store.state.user.baseUser=''
+      console.log(localStorage.getItem('baseUser'))
+      console.log(this.$store.state.user)
+      this.$router.push({ path: '/login' });
     }
   }
 };

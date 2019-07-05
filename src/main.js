@@ -1,34 +1,46 @@
 import Vue from 'vue'
-
-import 'normalize.css/normalize.css' // A modern alternative to CSS resets
-
+import 'normalize.css/normalize.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/en' // lang i18n
-
 import '@/styles/index.scss' // global css
 
 import App from './App'
 import store from './store'
 import router from './router'
 
-import '@/icons' // icon
-
-// /引入封装后的axios
-import axios from './utils/http'
-Vue.prototype.$http = axios
-
+import '@/icons' 
+import axios from 'axios'
+import qs from 'qs'
 import Global from './Base'
-Vue.prototype.MyGlobal = Global;
-// 是否登陆
+
+// 添加请求拦截器
+axios.interceptors.request.use(function (config) {
+	if(config.method == 'post'){
+		config.data = qs.stringify(config.data);
+	}
+	if(config.method == 'get'){
+		config.data = qs.stringify(config.data);
+	}
+	config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+	console.log("加载中...")
+	return config
+}), 
+
+// 添加响应拦截器
+axios.interceptors.response.use(function (config) {
+	console.log("关闭loading")
+	return config
+}), function (error) {
+	return Promise.reject(error)
+}
+
+//登陆拦截
 router.beforeEach((to, from, next) => {
 	if (to.matched.some(m => m.meta.auth)) {
-		// 对路由进行验证     
-		if (store.state.teststore.baseUser != null) {
-			next()   // 正常跳转  
+		if (store.state.user.baseUser!='') {   
+			next()   
 		}
 		else {
-			// 未登录则跳转到登陆界面，query:{ Rurl: to.fullPath}表示把当前路由信息传递过去方便登录后跳转回来；
 			next({ path: '/login', query: { Rurl: to.fullPath } })
 		}
 	} else {
@@ -36,10 +48,11 @@ router.beforeEach((to, from, next) => {
 	}
 })
 
-Vue.use(ElementUI, { locale })
-
+Vue.prototype.axios = axios;
+Vue.prototype.Global = Global;
+Vue.use(ElementUI)
+// 阻止启动生产消息
 Vue.config.productionTip = false
-
 new Vue({
 	el: '#app',
 	router,

@@ -18,11 +18,9 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
           name="username"
-          type="text"
-          tabindex="1"
-          auto-complete="on"
+        clearable
+         
         />
       </el-form-item>
       <el-form-item prop="password">
@@ -35,9 +33,7 @@
           v-model="loginForm.password"
           :type="passwordType"
           name="password"
-          tabindex="2"
-          auto-complete="on"
-          @keyup.native="checkCapslock"
+        
           @blur="capsTooltip = false"
           @keyup.enter.native="handleLogin"
         />
@@ -56,6 +52,7 @@
 </template>
 <script>
 import bg from "./bg";
+
 export default {
   name: "Login",
   components: {
@@ -64,8 +61,8 @@ export default {
   data() {
     return {
       loginForm: {
-        username: "admin",
-        password: "111111"
+        username: "",
+        password: ""
       },
       loading: false,
       passwordType: "password"
@@ -88,30 +85,17 @@ export default {
     },
     // 登陆
     handleLogin() {
-      this.loading = true;
-      let parameter = {
-        time: "2019-05-10",
-        pageNum: 1,
-        pageSize: 20
-      };
-      this.$http
-        .post(
-          this.MyGlobal.BASE_URL + "/mall_api/shop/get_ware_list",
-          parameter
-        )
-        .then(response => {
-          console.log(response);
-          if (response.data.code == 0 && response.data.success == true) {
-            sessionStorage.baseUser = JSON.stringify(this.loginForm);
-            this.$store.state.teststore.baseUser=JSON.stringify(this.loginForm)
-              // 改变vuex中的登陆状态
-              // this.$store.commit('changeLogin', JSON.stringify(this.loginForm));
-
-            this.$router.push({ path: "/dashboard" });
-            this.loading = false;
+      this.loading=true
+      this.axios.get(this.Global.BASE_URL+"/afterCamping/getReport.do",{params:{linkId: 659}}).then(response => {
+          if(response.status==200){
+            localStorage.setItem('baseUser', JSON.stringify(response.data.data));
+            this.$store.state.user.baseUser=JSON.stringify(response.data.data)
+            this.$router.push({ path: '/dashboard' });
           }
         })
-        .catch(error => {});
+        .catch(response => {
+          console.log(response);
+        });
     }
   }
 };
@@ -122,13 +106,22 @@ export default {
     color: #fff;
   }
 }
-
+.el-form-item__content{
+  display: flex;
+  .el-input--suffix{
+    display:flex !important;
+    align-items: center;
+    height: 52px !important; 
+  }
+  .el-input{
+     display:flex !important;
+     align-items: center;
+  }
+}
 /* reset element-ui css */
 .login-container {
   .el-input {
     display: inline-block;
-    height: 47px;
-    width: 85%;
     input {
       background: transparent;
       border: 0px;
