@@ -37,6 +37,7 @@ axios.interceptors.response.use(function (config) {
 //登陆拦截
 router.beforeEach((to, from, next) => {
 	if (to.matched.some(m => m.meta.auth)) {
+		console.log(store.state.user.baseUser)
 		if (store.state.user.baseUser!='') {   
 			next()   
 		}

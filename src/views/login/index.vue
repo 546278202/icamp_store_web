@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <bg/>
+    <bg />
     <el-form
       ref="loginForm"
       :model="loginForm"
@@ -13,19 +13,13 @@
       </div>
       <el-form-item prop="username">
         <span class="svg-container">
-          <svg-icon icon-class="user"/>
+          <svg-icon icon-class="user" />
         </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          name="username"
-        clearable
-         
-        />
+        <el-input ref="username" v-model="loginForm.username" name="username" clearable />
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
-          <svg-icon icon-class="password"/>
+          <svg-icon icon-class="password" />
         </span>
         <el-input
           :key="passwordType"
@@ -33,12 +27,11 @@
           v-model="loginForm.password"
           :type="passwordType"
           name="password"
-        
           @blur="capsTooltip = false"
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
       <el-button
@@ -85,12 +78,25 @@ export default {
     },
     // 登陆
     handleLogin() {
-      this.loading=true
-      this.axios.get(this.Global.BASE_URL+"/afterCamping/getReport.do",{params:{linkId: 659}}).then(response => {
-          if(response.status==200){
-            localStorage.setItem('baseUser', JSON.stringify(response.data.data));
-            this.$store.state.user.baseUser=JSON.stringify(response.data.data)
-            this.$router.push({ path: '/dashboard' });
+     
+      if (this.loginForm.username == "") {
+        return;
+      }
+      if (this.loginForm.password == "") {
+        return;
+      }
+      this.loading = true;
+      this.axios
+        .get(this.Global.BASE_URL + "/afterCamping/getReport.do", {
+          params: { linkId: 659 }
+        })
+        .then(response => {
+          if (response.status == 200) {
+            localStorage.setItem("baseUser",JSON.stringify(response.data.data));
+            this.$store.state.user.baseUser = JSON.stringify(
+              response.data.data
+            );
+            this.$router.push({ path: "/dashboard" });
           }
         })
         .catch(response => {
@@ -106,16 +112,16 @@ export default {
     color: #fff;
   }
 }
-.el-form-item__content{
+.el-form-item__content {
   display: flex;
-  .el-input--suffix{
-    display:flex !important;
+  .el-input--suffix {
+    display: flex !important;
     align-items: center;
-    height: 52px !important; 
+    height: 52px !important;
   }
-  .el-input{
-     display:flex !important;
-     align-items: center;
+  .el-input {
+    display: flex !important;
+    align-items: center;
   }
 }
 /* reset element-ui css */

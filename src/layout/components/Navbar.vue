@@ -5,19 +5,31 @@
       class="hamburger-container"
       @toggleClick="toggleSideBar"
     />
-    <breadcrumb class="breadcrumb-container"/>
+    <breadcrumb class="breadcrumb-container" />
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
+      <el-dropdown
+        class="avatar-container"
+        trigger="click"
+      >
         <div class="avatar-wrapper">
-          <img src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" class="user-avatar">
-          <i class="el-icon-caret-bottom"/>
+          <img
+            src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"
+            class="user-avatar"
+          >
+          <i class="el-icon-caret-bottom" />
         </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
+        <el-dropdown-menu
+          slot="dropdown"
+          class="user-dropdown"
+        >
           <router-link to="/">
             <el-dropdown-item>首页</el-dropdown-item>
           </router-link>
           <el-dropdown-item divided>
-            <span style="display:block;" @click="getConfirm">退出登陆</span>
+            <span
+              style="display:block;"
+              @click="getConfirm"
+            >退出登陆</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -40,25 +52,25 @@ export default {
   },
   methods: {
     // 询问框
-     getConfirm() {
-        this.$confirm('您确定要退出?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.logout()
-        }).catch(() => {
-        });
+    getConfirm() {
+      this.$confirm('您确定要退出?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.logout()
+      }).catch(() => {
+      });
     },
     toggleSideBar() {
       this.$store.dispatch("app/toggleSideBar");
     },
-    // 退出登录
-    async logout() {
+    // 退出登录Î
+    logout() {
       // 清空缓存中的登陆信息
-      localStorage.setItem('baseUser','');
+      localStorage.setItem('baseUser', '');
       // 清空store中的登陆信息
-      this.$store.state.user.baseUser=''
+      this.$store.state.user.baseUser = ''
       console.log(localStorage.getItem('baseUser'))
       console.log(this.$store.state.user)
       this.$router.push({ path: '/login' });
