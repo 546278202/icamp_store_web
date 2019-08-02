@@ -1,7 +1,5 @@
 <template>
-  <div class="BgAnimation">
-    <div class="waves"></div>
-  </div>
+  <div class="waves"></div>
 </template>
 
 <script>
@@ -406,7 +404,6 @@ class ShaderProgram {
 }
 const pointSize = 2.5;
 export default {
-  name: "BgAnimation",
   data() {
     return {};
   },

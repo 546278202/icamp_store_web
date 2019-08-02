@@ -8,27 +8,32 @@ import App from './App'
 import store from './store'
 import router from './router'
 
-import '@/icons' 
+import '@/icons'
 import axios from 'axios'
 import qs from 'qs'
 import Global from './Base'
 
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css' // progress bar style
+NProgress.configure({ showSpinner: false }) // NProgress Configuration
+
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
-	if(config.method == 'post'){
+	if (config.method == 'post') {
 		config.data = qs.stringify(config.data);
 	}
-	if(config.method == 'get'){
+	if (config.method == 'get') {
 		config.data = qs.stringify(config.data);
 	}
 	config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 	console.log("加载中...")
+	NProgress.start()
 	return config
-}), 
-
+})
 // 添加响应拦截器
 axios.interceptors.response.use(function (config) {
 	console.log("关闭loading")
+	NProgress.done()
 	return config
 }), function (error) {
 	return Promise.reject(error)
@@ -36,10 +41,12 @@ axios.interceptors.response.use(function (config) {
 
 //登陆拦截
 router.beforeEach((to, from, next) => {
+	// start progress bar
+	NProgress.start()
 	if (to.matched.some(m => m.meta.auth)) {
 		console.log(store.state.user.baseUser)
-		if (store.state.user.baseUser!='') {   
-			next()   
+		if (store.state.user.baseUser) {
+			next()
 		}
 		else {
 			next({ path: '/login', query: { Rurl: to.fullPath } })
@@ -48,6 +55,12 @@ router.beforeEach((to, from, next) => {
 		next()
 	}
 })
+
+router.afterEach(() => {
+	// finish progress bar
+	NProgress.done()
+})
+
 
 Vue.prototype.axios = axios;
 Vue.prototype.Global = Global;
