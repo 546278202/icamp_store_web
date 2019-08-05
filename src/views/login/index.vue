@@ -66,6 +66,8 @@
 <script>
 import bg from "./bg";
 import { validUsername } from "@/utils/validate";
+import JSEncrypt from "jsencrypt/bin/jsencrypt"; //rsa
+import md5 from "js-md5"; //md5
 export default {
   name: "Login",
   components: {
@@ -113,6 +115,21 @@ export default {
     }
   },
   methods: {
+    //  rsa加密
+    informationEncryption() {
+      let encryptor = new JSEncrypt(); // 新建JSEncrypt对象
+      let publicKey = `MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHGBAi30CuorD71ddAY5Pj80a2
+    FinTK6CJrX3LJZ5FTxJrQdzxbwDVB2mDVgspU5oz7X03TzgWFKkkJm2b4g9G00sA
+    +G9oeGaR+rpFaoDr4BxW+AUd6V1Ps/OkTaLc473XOA0aYTRIwo1Ob3pTJd9Za90e
+    +NRk0c07Vb/mcr0w1QIDAQAB`; //把之前生成的贴进来，实际开发过程中，可以是后台传过来的
+      encryptor.setPublicKey(publicKey); // 设置公钥
+      let rsaPassWord = encryptor.encrypt("我我我我"); // 对需要加密的数据进行加密
+      console.log(rsaPassWord); //得到加密后的数据
+      var timestamp = new Date().valueOf(); //获取当前毫秒的时间戳，准确！
+      console.log(timestamp); //得到加密后的数据
+      console.log(md5("holle")); // bcecb35d0a12baad472fbe0392bcc043
+    },
+
     showPwd() {
       if (this.passwordType === "password") {
         this.passwordType = "";
@@ -124,6 +141,8 @@ export default {
       });
     },
     handleLogin() {
+      this.informationEncryption();
+      debugger;
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
