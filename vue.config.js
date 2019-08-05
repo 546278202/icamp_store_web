@@ -7,7 +7,7 @@ function resolve(dir) {
 const name = 'IDEAS后台管理系统'
 const port = 9528 // dev port
 module.exports = {
-  publicPath: '/',
+  publicPath: './',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: false,
