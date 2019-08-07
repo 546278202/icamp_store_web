@@ -16,30 +16,33 @@ import Global from './Base'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
-
+console.log(process.env)
+// 允许携带cookie
+axios.defaults.withCredentials = true
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
 	if (config.method == 'post') {
-		config.data = qs.stringify(config.data);
+		config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+		// config.headers['Content-Type'] = 'application/json; charset=utf-8';		
 	}
 	if (config.method == 'get') {
 		config.data = qs.stringify(config.data);
 	}
-	config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 	console.log("加载中...")
-	NProgress.start()
+	// NProgress.start()
+	config.headers['Content-Type'] = 'application/json; charset=utf-8';		
 	return config
 })
 // 添加响应拦截器
 axios.interceptors.response.use(function (config) {
 	console.log("关闭loading")
-	NProgress.done()
+	// NProgress.done()
 	return config
 }), function (error) {
 	return Promise.reject(error)
 }
 
-//登陆拦截
+//路由跳转
 router.beforeEach((to, from, next) => {
 	// start progress bar
 	NProgress.start()

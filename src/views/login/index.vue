@@ -1,14 +1,7 @@
 <template>
   <div class="login-container">
     <bg />
-    <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      class="login-form"
-      auto-complete="off"
-      label-position="left"
-    >
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="off" label-position="left">
       <div class="title-container">
         <h3 class="title">LoginAdmin</h3>
       </div>
@@ -17,43 +10,20 @@
         <span class="svg-container" style="position: absolute;left: 10px;top: 5px;z-index: 1212;">
           <svg-icon icon-class="user" />
         </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
-          type="text"
-          tabindex="1"
-          auto-complete="off"
-        />
+        <el-input ref="username" v-model="loginForm.username" placeholder="Username" name="username" type="text" tabindex="1" auto-complete="off" />
       </el-form-item>
 
       <el-form-item prop="password">
         <span class="svg-container" style="position: absolute;left: 10px;top: 5px;z-index: 1212;">
           <svg-icon icon-class="password" />
         </span>
-        <el-input
-          :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
-          :type="passwordType"
-          placeholder="Password"
-          name="password"
-          tabindex="2"
-          auto-complete="off"
-          @keyup.enter.native="handleLogin"
-        />
+        <el-input :key="passwordType" ref="password" v-model="loginForm.password" :type="passwordType" placeholder="Password" name="password" tabindex="2" auto-complete="off" @keyup.enter.native="handleLogin" />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
 
-      <el-button
-        :loading="loading"
-        type="primary"
-        style="width:100%;margin-bottom:30px;"
-        @click.native.prevent="handleLogin"
-      >Login</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="getPublicKey">Login</el-button>
 
       <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
@@ -89,9 +59,10 @@ export default {
       }
     };
     return {
+      publicKey: "", //公钥
       loginForm: {
-        username: "",
-        password: ""
+        username: "admin",
+        password: "111111"
       },
       loginRules: {
         username: [
@@ -108,7 +79,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         this.redirect = route.query && route.query.redirect;
       },
       immediate: true
@@ -117,17 +88,7 @@ export default {
   methods: {
     //  rsa加密
     informationEncryption() {
-      let encryptor = new JSEncrypt(); // 新建JSEncrypt对象
-      let publicKey = `MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHGBAi30CuorD71ddAY5Pj80a2
-    FinTK6CJrX3LJZ5FTxJrQdzxbwDVB2mDVgspU5oz7X03TzgWFKkkJm2b4g9G00sA
-    +G9oeGaR+rpFaoDr4BxW+AUd6V1Ps/OkTaLc473XOA0aYTRIwo1Ob3pTJd9Za90e
-    +NRk0c07Vb/mcr0w1QIDAQAB`; //把之前生成的贴进来，实际开发过程中，可以是后台传过来的
-      encryptor.setPublicKey(publicKey); // 设置公钥
-      let rsaPassWord = encryptor.encrypt("我我我我"); // 对需要加密的数据进行加密
-      console.log(rsaPassWord); //得到加密后的数据
-      var timestamp = new Date().valueOf(); //获取当前毫秒的时间戳，准确！
-      console.log(timestamp); //得到加密后的数据
-      console.log(md5("holle")); // bcecb35d0a12baad472fbe0392bcc043
+
     },
 
     showPwd() {
@@ -140,38 +101,52 @@ export default {
         this.$refs.password.focus();
       });
     },
-    handleLogin() {
-      this.informationEncryption();
-      debugger;
+    // 获取公钥
+    getPublicKey() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
-          this.axios
-            .get(this.Global.BASE_URL + "/afterCamping/getReport.do", {
-              params: { linkId: 659 }
-            })
-            .then(response => {
-              if (response.status == 200) {
-                localStorage.setItem(
-                  "baseUser",
-                  JSON.stringify(response.data.data)
-                );
-                this.$store.state.user.baseUser = JSON.stringify(
-                  response.data.data
-                );
-                this.loading = false;
-                this.$router.push({ path: "/dashboard" });
-              }
-            })
+          this.axios.get(this.Global.BASE_URL + "/admin/rsa", {            params: { username: "admin" },
+          }).then(response => {
+            if (response.status == 200) {
+              console.log(response)
+              this.publicKey = response.data.data.public_key
+              this.handleLogin()
+            }
+          })
             .catch(response => {
-              this.loading = false;
-              console.log(response);
+
             });
         } else {
           console.log("error submit!!");
           return false;
         }
       });
+    },
+    // 登陆
+    handleLogin() {
+      let encryptor = new JSEncrypt(); // 新建JSEncrypt对象
+      encryptor.setPublicKey(this.publicKey);
+      let timestamp = new Date().valueOf();
+      let val = md5(this.loginForm.username + md5(this.loginForm.password)) + timestamp
+      let pwd = encryptor.encrypt(val)
+      let parameter = {
+        "username": this.loginForm.username,
+        "password": pwd,
+        "remember-me": true
+      }
+      this.axios.post(this.Global.BASE_URL + "/admin/login", parameter).then(response => {
+        if (response.data.status == 200) {
+          window.localStorage.setItem("baseUser", JSON.stringify(response.data.data));
+          this.$store.state.user.baseUser = JSON.stringify(response.data.data);
+          this.loading = false;
+          this.$router.push({ path: "/dashboard" });
+        }
+      }).catch(response => {
+        this.loading = false;
+        console.log(response);
+      });
+
     }
   }
 };

@@ -70,6 +70,7 @@
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
+    <!-- <router-view> -->
   </div>
 </template>
 <script>
