@@ -22,15 +22,17 @@ axios.defaults.withCredentials = true
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
 	if (config.method == 'post') {
-		config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-		// config.headers['Content-Type'] = 'application/json; charset=utf-8';		
+		// config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+		// config.headers['Content-Type'] = 'application/json; charset=utf-8';	
+		config.headers['Content-Type'] = 'application/json; charset=utf-8';
+
 	}
 	if (config.method == 'get') {
 		config.data = qs.stringify(config.data);
 	}
 	console.log("加载中...")
 	// NProgress.start()
-	config.headers['Content-Type'] = 'application/json; charset=utf-8';		
+	// config.headers['Content-Type'] = 'application/json; charset=utf-8';
 	return config
 })
 // 添加响应拦截器
@@ -47,7 +49,6 @@ router.beforeEach((to, from, next) => {
 	// start progress bar
 	NProgress.start()
 	if (to.matched.some(m => m.meta.auth)) {
-		console.log(store.state.user.baseUser)
 		if (store.state.user.baseUser) {
 			next()
 		}

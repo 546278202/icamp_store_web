@@ -1,19 +1,15 @@
 <template>
   <div class="navbar">
-    <hamburger
-      :is-active="sidebar.opened"
-      class="hamburger-container"
-      @toggleClick="toggleSideBar"
-    />
+    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
     <breadcrumb class="breadcrumb-container" />
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
-        <div class="avatar-wrapper">
-          <img
-            src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"
-            class="user-avatar"
-          />
-          <i class="el-icon-caret-bottom" />
+      <el-dropdown class="avatar-container">
+        <div class="avatar-wrapper" style="display:flex;height:100%;align-items: center;padding-right:20px;">
+          <div style="margin-right:10px;">{{helloName}}</div>
+          <div>
+            <img src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" class="user-avatar" />
+            <!-- <i class="el-icon-caret-bottom" /> -->
+          </div>
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
@@ -37,6 +33,11 @@ export default {
     Breadcrumb,
     Hamburger
   },
+  data() {
+    return {
+      helloName: "Hello , " + this.$store.state.user.baseUser.userName
+    }
+  },
   computed: {
     ...mapGetters(["sidebar"])
   },
@@ -51,31 +52,25 @@ export default {
         .then(() => {
           this.logout();
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     toggleSideBar() {
       this.$store.dispatch("app/toggleSideBar");
     },
-    // 退出登录Î
+    // 退出登录
     logout() {
-      this.axios
-        .get(this.Global.BASE_URL + "/logout", {
-          params: { username: "pengji" },
-          withCredentials: true // 允许携带cookie
-        })
-        .then(response => {
-          if (response.status == 200) {
-            // 清空缓存中的登陆信息
-            http: localStorage.setItem("baseUser", "");
-            // 清空store中的登陆信息
-            this.$store.state.user.baseUser = "";
-            console.log(localStorage.getItem("baseUser"));
-            console.log(this.$store.state.user);
-            this.$router.push({ path: "/login" });
-          }
-        })
+      let baseUser = this.$store.state.user.baseUser
+      this.axios.get(this.Global.BASE_URL + "/logout", {        params: {},
+      }).then(response => {
+        if (response.status == 200) {
+          localStorage.setItem("baseUser", "");
+          this.$store.state.user.baseUser = "";
+          console.log(localStorage.getItem("baseUser"));
+          console.log(this.$store.state.user);
+          this.$router.push({ path: "/login" });
+        }
+      })
         .catch(response => {
-        //   this.loading = false;
           console.log(response);
         });
     }
@@ -111,19 +106,16 @@ export default {
   .right-menu {
     float: right;
     height: 100%;
-    line-height: 50px;
-
     &:focus {
       outline: none;
     }
-
     .right-menu-item {
       display: inline-block;
       padding: 0 8px;
       height: 100%;
       font-size: 18px;
       color: #5a5e66;
-      vertical-align: text-bottom;
+      //   vertical-align: text-bottom;
 
       &.hover-effect {
         cursor: pointer;
@@ -136,26 +128,24 @@ export default {
     }
 
     .avatar-container {
-      margin-right: 30px;
-
+      height: 100%;
       .avatar-wrapper {
-        margin-top: 5px;
         position: relative;
-
         .user-avatar {
           cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
+          width: 35px;
+          height: 35px;
+          border-radius: 35px;
+          display: block;
         }
 
-        .el-icon-caret-bottom {
-          cursor: pointer;
-          position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
-        }
+        // .el-icon-caret-bottom {
+        //   cursor: pointer;
+        //   position: absolute;
+        //   right: -20px;
+        //   top: 25px;
+        //   font-size: 12px;
+        // }
       }
     }
   }

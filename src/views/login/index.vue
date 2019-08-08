@@ -27,7 +27,7 @@
 
       <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
-        <span>password: any</span>
+        <span>password: 111111</span>
       </div>
     </el-form>
   </div>
@@ -138,7 +138,7 @@ export default {
       this.axios.post(this.Global.BASE_URL + "/admin/login", parameter).then(response => {
         if (response.data.status == 200) {
           window.localStorage.setItem("baseUser", JSON.stringify(response.data.data));
-          this.$store.state.user.baseUser = JSON.stringify(response.data.data);
+          this.$store.state.user.baseUser = response.data.data;
           this.loading = false;
           this.$router.push({ path: "/dashboard" });
         }
