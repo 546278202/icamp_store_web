@@ -108,6 +108,11 @@ export const constantRoutes = [
                 meta: { title: '订单列表', auth: true }
             },
             {
+                path: 'orderdetail',
+                name: 'orderdetail',
+                component: () => import('@/views/order/orderdetail'),
+            },
+            {
                 path: 'refund',
                 name: 'refund',
                 component: () => import('@/views/order/refund'),
@@ -160,6 +165,52 @@ export const constantRoutes = [
             }
         ]
     },
+    // 系统管理
+    {
+        path: '/systemadmin',
+        component: Layout,
+        redirect: '/systemadmin',
+        name: 'systemadmin',
+        meta: { title: '系统管理', icon: 'edit' },
+        children: [
+            {
+                path: 'isoff',
+                name: 'isoff',
+                component: () => import('@/views/systemadmin/isoff'),
+                meta: { title: '开关设置', icon: '', auth: true }
+            },
+            {
+                path: 'paramer',
+                name: 'paramer',
+                component: () => import('@/views/systemadmin/paramer'),
+                meta: { title: '参数设置', icon: '', auth: true }
+            },
+            {
+                path: 'xuandan',
+                name: 'xuandan',
+                component: () => import('@/views/systemadmin/xuandan'),
+                meta: { title: '选单设置', icon: '', auth: true }
+            }, {
+                path: 'setmodule',
+                name: 'setmodule',
+                component: () => import('@/views/systemadmin/setmodule'),
+                meta: { title: '模块设置', icon: '', auth: true }
+            },
+            {
+                path: 'setorganization',
+                name: 'setorganization',
+                component: () => import('@/views/systemadmin/setorganization'),
+                meta: { title: '组织设置', icon: '', auth: true }
+            },
+            {
+                path: 'setauthority',
+                name: 'setauthority',
+                component: () => import('@/views/systemadmin/setauthority'),
+                meta: { title: '权限设置', icon: '', auth: true }
+            }
+        ]
+    },
+
     // 404 
     { path: '*', redirect: '/404', hidden: true }
 ]

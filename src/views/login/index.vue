@@ -125,6 +125,7 @@ export default {
     },
     // 登陆
     handleLogin() {
+      console.log(this.$store)
       let encryptor = new JSEncrypt(); // 新建JSEncrypt对象
       encryptor.setPublicKey(this.publicKey);
       let timestamp = new Date().valueOf();
@@ -138,7 +139,7 @@ export default {
       this.axios.post(this.Global.BASE_URL + "/admin/login", parameter).then(response => {
         if (response.data.status == 200) {
           window.localStorage.setItem("baseUser", JSON.stringify(response.data.data));
-          this.$store.state.user.baseUser = response.data.data;
+          this.$store.state.baseUser = response.data.data;
           this.loading = false;
           this.$router.push({ path: "/dashboard" });
         }

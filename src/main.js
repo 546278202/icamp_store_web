@@ -5,7 +5,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/index.scss' // global css
 
 import App from './App'
-import store from './store'
+import store from './store/store'
 import router from './router'
 
 import '@/icons'
@@ -16,7 +16,7 @@ import Global from './Base'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
-console.log(process.env)
+console.log(store)
 // 允许携带cookie
 axios.defaults.withCredentials = true
 // 添加请求拦截器
@@ -47,9 +47,11 @@ axios.interceptors.response.use(function (config) {
 //路由跳转
 router.beforeEach((to, from, next) => {
 	// start progress bar
+	console.log(localStorage.getItem("baseUser"))
+	console.log(store.state.baseUser)
 	NProgress.start()
 	if (to.matched.some(m => m.meta.auth)) {
-		if (store.state.user.baseUser) {
+		if (localStorage.getItem("baseUser")) {
 			next()
 		}
 		else {

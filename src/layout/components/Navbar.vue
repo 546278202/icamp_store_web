@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      helloName: "Hello , " + this.$store.state.user.baseUser.userName
+      helloName: "Hello , " + this.$store.state.baseUser.userName
     }
   },
   computed: {
@@ -55,16 +55,16 @@ export default {
         .catch(() => { });
     },
     toggleSideBar() {
-      this.$store.dispatch("app/toggleSideBar");
+      this.$store.dispatch("toggleSideBar");
     },
     // 退出登录
     logout() {
-      let baseUser = this.$store.state.user.baseUser
+      let baseUser = this.$store.state.baseUser
       this.axios.get(this.Global.BASE_URL + "/logout", {        params: {},
       }).then(response => {
         if (response.status == 200) {
           localStorage.setItem("baseUser", "");
-          this.$store.state.user.baseUser = "";
+          this.$store.state.baseUser = "";
           console.log(localStorage.getItem("baseUser"));
           console.log(this.$store.state.user);
           this.$router.push({ path: "/login" });

@@ -27,24 +27,10 @@
       <el-form-item>
         <el-button type="primary" size="medium" icon="el-icon-search" @click="onSubmit">查询</el-button>
         <el-button type="primary" size="medium" icon="el-icon-search" @click="changeState">高级查询</el-button>
-        <el-button
-          type="primary"
-          size="medium"
-          icon="el-icon-download"
-          :loading="downloadLoading"
-          @click="handleDownload"
-        >导出订单</el-button>
+        <el-button type="primary" size="medium" icon="el-icon-download" :loading="downloadLoading" @click="handleDownload">导出订单</el-button>
       </el-form-item>
     </el-form>
-    <el-table
-      fit
-      ref="multipleTable"
-      :data="tableData"
-      tooltip-effect="dark"
-      style="width: 100%"
-      border
-      @selection-change="handleSelectionChange"
-    >
+    <el-table fit ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" border @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center"></el-table-column>
       <el-table-column prop="num" label="订单编号" align="center"></el-table-column>
       <el-table-column prop="time" label="提交时间" align="center"></el-table-column>
@@ -56,41 +42,22 @@
       <el-table-column prop="num" label="订单状态" align="center"></el-table-column>
       <el-table-column prop="num" label="操作" width="200px" align="center">
         <div>
-          <a>查看</a>
+          <router-link to='orderdetail'>查看</router-link>
           <a>编辑</a>
         </div>
       </el-table-column>
     </el-table>
 
     <!-- 弹出层 -->
-    <dialogForm :inputName="dialogFormVisible" v-on:changParent="zidingyi($event)"/>
+    <dialogForm :inputName="dialogFormVisible" v-on:changParent="zidingyi($event)" />
     <div style="overflow:hidden;margin-top:20px;">
-      <el-select
-        size="medium"
-        v-model="value"
-        placeholder="请选择"
-        style="float:left;margin-right:15px;"
-      >
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
+      <el-select size="medium" v-model="value" placeholder="请选择" style="float:left;margin-right:15px;">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
       </el-select>
       <!-- 按钮 -->
       <el-button type="primary" size="medium" style="float:left;">确定</el-button>
       <!-- 分页 -->
-      <el-pagination
-        style="float:right;text-align: right;"
-        background
-        :current-page.sync="currentPage1"
-        :page-size="100"
-        layout="total, prev, pager, next"
-        :total="1000"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
+      <el-pagination style="float:right;text-align: right;" background :current-page.sync="currentPage1" :page-size="100" layout="total, prev, pager, next" :total="1000" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
     </div>
   </div>
 </template>
@@ -163,7 +130,7 @@ export default {
   },
 
   // beforeMount() {},
-  mounted() {},
+  mounted() { },
   methods: {
     onSubmit() {
       console.log("submit!");
