@@ -138,8 +138,8 @@ export default {
       }
       this.axios.post(this.Global.BASE_URL + "/admin/login", parameter).then(response => {
         if (response.data.status == 200) {
-          window.localStorage.setItem("baseUser", JSON.stringify(response.data.data));
-          this.$store.state.baseUser = response.data.data;
+          localStorage.setItem("baseUser", JSON.stringify(response.data.data));
+          this.$store.commit('changeLogin', JSON.stringify(response.data.data));
           this.loading = false;
           this.$router.push({ path: "/dashboard" });
         }

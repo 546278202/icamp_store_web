@@ -65,8 +65,6 @@ export default {
         if (response.status == 200) {
           localStorage.setItem("baseUser", "");
           this.$store.state.baseUser = "";
-          console.log(localStorage.getItem("baseUser"));
-          console.log(this.$store.state.user);
           this.$router.push({ path: "/login" });
         }
       })

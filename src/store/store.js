@@ -14,15 +14,13 @@ const store = new Vuex.Store({
         },
         device: 'desktop',
         // 登陆状态
-        baseUser: JSON.parse(localStorage.getItem("baseUser")),
+        baseUser: localStorage.getItem("baseUser") ? JSON.parse(localStorage.getItem("baseUser")) : ""
     },
     mutations: {
         // 登陆状态
         changeLogin(state, data) {
             state.baseUser = JSON.parse(data)
         },
-
-
         TOGGLE_SIDEBAR: state => {
             state.sidebar.opened = !state.sidebar.opened
             state.sidebar.withoutAnimation = false
