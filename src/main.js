@@ -49,6 +49,8 @@ router.beforeEach((to, from, next) => {
 	// start progress bar
 	console.log(localStorage.getItem("baseUser"))
 	console.log(store.state.baseUser)
+	var strCookie = document.cookie;
+	console.log("cookie:"+strCookie)
 	NProgress.start()
 	if (to.matched.some(m => m.meta.auth)) {
 		if (localStorage.getItem("baseUser")) {

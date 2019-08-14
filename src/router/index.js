@@ -165,51 +165,122 @@ export const constantRoutes = [
             }
         ]
     },
-    // 系统管理
+    // 权限
     {
-        path: '/systemadmin',
+        path: '/authority',
         component: Layout,
-        redirect: '/systemadmin',
-        name: 'systemadmin',
-        meta: { title: '系统管理', icon: 'edit' },
+        redirect: '/authority/partment/setauthority',
+        name: 'Nested',
+        meta: {
+            title: '权限',
+            icon: 'nested'
+        },
         children: [
             {
-                path: 'isoff',
-                name: 'isoff',
-                component: () => import('@/views/systemadmin/isoff'),
-                meta: { title: '开关设置', icon: '', auth: true }
+                // 部门管理
+                path: 'partment',
+                component: () => import('@/views/authority/partment/index'), 
+                name: 'partment',
+                meta: { title: '部门管理' },
+                redirect: '/authority/partment/setpartment',
+                children: [
+                    {
+                        path: 'setpartment',
+                        component: () => import('@/views/authority/partment/setpartment'),
+                        name: 'setpartment',
+                        meta: { title: '部门管理' }
+                    },
+                    // {
+                    //     path: 'setauthority',
+                    //     component: () => import('@/views/authority/partment/setauthority'),
+                    //     name: 'setauthority',
+                    //     meta: { title: '权限管理' }
+                    // }
+                ]
             },
             {
-                path: 'paramer',
-                name: 'paramer',
-                component: () => import('@/views/systemadmin/paramer'),
-                meta: { title: '参数设置', icon: '', auth: true }
-            },
-            {
-                path: 'xuandan',
-                name: 'xuandan',
-                component: () => import('@/views/systemadmin/xuandan'),
-                meta: { title: '选单设置', icon: '', auth: true }
-            }, {
-                path: 'setmodule',
-                name: 'setmodule',
-                component: () => import('@/views/systemadmin/setmodule'),
-                meta: { title: '模块设置', icon: '', auth: true }
-            },
-            {
-                path: 'setorganization',
-                name: 'setorganization',
-                component: () => import('@/views/systemadmin/setorganization'),
-                meta: { title: '组织设置', icon: '', auth: true }
-            },
-            {
-                path: 'setauthority',
-                name: 'setauthority',
-                component: () => import('@/views/systemadmin/setauthority'),
-                meta: { title: '权限设置', icon: '', auth: true }
+                // 成员管理
+                path: 'member',
+                component: () => import('@/views/authority/member/index'), 
+                name: 'member',
+                meta: { title: '成员管理' },
+                redirect: '/authority/member/setmember',
+                children: [
+                    {
+                        path: 'setmember',
+                        component: () => import('@/views/authority/member/setmember'),
+                        name: 'setmember',
+                        meta: { title: '成员管理' }
+                    },
+                    {
+                        path: 'addmember',
+                        component: () => import('@/views/authority/member/addmember'),
+                        name: 'addmember',
+                        meta: { title: '添加成员' }
+                    }
+                ]
             }
-        ]
+
+        ],
     },
+
+    // 权限管理
+    // {
+    //     path: '/authorityadmin',
+    //     component: Layout,
+    //     redirect: '/authorityadmin',
+    //     name: 'authorityadmin',
+    //     meta: { title: '权限管理', icon: 'edit' },
+    //     children: [
+    //         {
+    //             path: 'setmodule',
+    //             name: 'setmodule',
+    //             component: () => import('@/views/authorityadmin/setmodule'),
+    //             meta: { title: '部门设置', icon: '', auth: true }
+    //         },
+    //         {
+    //             path: 'member',
+    //             name: 'member',
+    //             component: () => import('@/views/authorityadmin/member'),
+    //             meta: { title: '成员设置', icon: '', auth: true }
+    //         },
+    //         // {
+    //         //     path: 'setauthority',
+    //         //     name: 'setauthority',
+    //         //     component: () => import('@/views/authorityadmin/setauthority'),
+    //         //     meta: { title: '人员设置', icon: '', auth: true }
+    //         // },
+    //     ]
+    // },
+
+    // // 系统管理
+    // {
+    //     path: '/systemadmin',
+    //     component: Layout,
+    //     redirect: '/systemadmin',
+    //     name: 'systemadmin',
+    //     meta: { title: '系统管理', icon: 'edit' },
+    //     children: [
+    //         {
+    //             path: 'isoff',
+    //             name: 'isoff',
+    //             component: () => import('@/views/systemadmin/isoff'),
+    //             meta: { title: '开关设置', icon: '', auth: true }
+    //         },
+    //         {
+    //             path: 'paramer',
+    //             name: 'paramer',
+    //             component: () => import('@/views/systemadmin/paramer'),
+    //             meta: { title: '参数设置', icon: '', auth: true }
+    //         },
+    //         {
+    //             path: 'xuandan',
+    //             name: 'xuandan',
+    //             component: () => import('@/views/systemadmin/xuandan'),
+    //             meta: { title: '选单设置', icon: '', auth: true }
+    //         }
+    //     ]
+    // },
 
     // 404 
     { path: '*', redirect: '/404', hidden: true }

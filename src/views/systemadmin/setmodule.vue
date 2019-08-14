@@ -10,15 +10,7 @@
     </template>
 
     <div>
-      <el-pagination
-        background
-        :current-page.sync="currentPage1"
-        :page-size="100"
-        layout="total, prev, pager, next"
-        :total="1000"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
+      <el-pagination background :current-page.sync="currentPage1" :page-size="100" layout="total, prev, pager, next" :total="1000" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
     </div>
   </div>
 </template>
@@ -48,13 +40,18 @@ export default {
       ]
     }
   },
+  mounted() {
+    this.getDateList();
+  },
+
   methods: {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
-    }
+    },
+
     // 设置表格第一行的颜色
     // getRowClass({ row, column, rowIndex, columnIndex }) {
     //   if (rowIndex == 0) {
@@ -63,6 +60,21 @@ export default {
     //     return "";
     //   }
     // }
+    getDateList() {
+      let parameter = {
+
+      }
+      this.axios.get  (this.Global.BASE_URL + "/depart", parameter).then(response => {
+        if (response.data.status == 200) {
+          console.log(response)
+        }
+      }).catch(response => {
+        this.loading = false;
+        console.log(response);
+      });
+
+    },
+
   }
 }
 </script>
