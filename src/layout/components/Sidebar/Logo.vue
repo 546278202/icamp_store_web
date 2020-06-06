@@ -12,8 +12,9 @@
     </transition>
   </div>
 </template>
-
 <script>
+import icamp from '@/assets/icamp.png'
+
 export default {
   name: 'SidebarLogo',
   props: {
@@ -24,9 +25,11 @@ export default {
   },
   data() {
     return {
-      title: 'IDEAS管理系统',
+      title: 'ICAMP管理系统',
       // logo: 'https://www.ideas-camp.com/img/login.jpg'
-      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+      // logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+      logo: icamp
+
     }
   }
 }

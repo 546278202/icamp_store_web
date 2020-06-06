@@ -1,16 +1,19 @@
 <template>
   <div class="login-container">
     <bg />
+    <img v-if="logo" :src="logo" style="width:50px;height:50px;position:absolute;left:15px;top:15px;">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="off" label-position="left">
-      <div class="title-container">
-        <h3 class="title">LoginAdmin</h3>
-      </div>
 
+      <div class="title-container">
+
+        <h3 class="title">ICAMP</h3>
+
+      </div>
       <el-form-item prop="username">
         <span class="svg-container" style="position: absolute;left: 10px;top: 5px;z-index: 1212;">
           <svg-icon icon-class="user" />
         </span>
-        <el-input ref="username" v-model="loginForm.username" placeholder="Username" name="username" type="text" tabindex="1" auto-complete="off" />
+        <el-input ref="username" v-model="loginForm.username" placeholder="Username" name="username" type="text" tabindex="1" auto-complete="off" clearable/>
       </el-form-item>
 
       <el-form-item prop="password">
@@ -22,20 +25,16 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="getPublicKey">Login</el-button>
-
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span>password: 111111</span>
-      </div>
     </el-form>
   </div>
 </template>
 
 <script>
+import icamp from '@/assets/icamp.png'
 import bg from "./bg";
 import { validUsername } from "@/utils/validate";
+import { startLoading } from "@/main";
 import JSEncrypt from "jsencrypt/bin/jsencrypt"; //rsa
 import md5 from "js-md5"; //md5
 export default {
@@ -52,17 +51,18 @@ export default {
       }
     };
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error("The password can not be less than 6 digits"));
+      if (value.length < 0) {
+        callback(new Error("The password can not be less than 0digits"));
       } else {
         callback();
       }
     };
     return {
+      logo: icamp,
       publicKey: "", //公钥
       loginForm: {
-        username: "admin",
-        password: "111111"
+        username: "",
+        password: ""
       },
       loginRules: {
         username: [
@@ -87,10 +87,6 @@ export default {
   },
   methods: {
     //  rsa加密
-    informationEncryption() {
-
-    },
-
     showPwd() {
       if (this.passwordType === "password") {
         this.passwordType = "";
@@ -106,17 +102,16 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
-          this.axios.get(this.Global.BASE_URL + "/admin/rsa", {            params: { username: "admin" },
+          this.axios.get(this.Global.BASE_URL + "/admin/rsa", {            params: { username: this.loginForm.username }, isLoading: false
           }).then(response => {
             if (response.status == 200) {
               console.log(response)
               this.publicKey = response.data.data.public_key
               this.handleLogin()
             }
-          })
-            .catch(response => {
-
-            });
+          }).catch(response => {
+            this.loading = false;
+          });
         } else {
           console.log("error submit!!");
           return false;
@@ -125,27 +120,30 @@ export default {
     },
     // 登陆
     handleLogin() {
-      console.log(this.$store)
       let encryptor = new JSEncrypt(); // 新建JSEncrypt对象
       encryptor.setPublicKey(this.publicKey);
       let timestamp = new Date().valueOf();
       let val = md5(this.loginForm.username + md5(this.loginForm.password)) + timestamp
+      console.log(md5(this.loginForm.username + md5(this.loginForm.password)))
       let pwd = encryptor.encrypt(val)
       let parameter = {
         "username": this.loginForm.username,
         "password": pwd,
         "remember-me": true
       }
-      this.axios.post(this.Global.BASE_URL + "/admin/login", parameter).then(response => {
+      this.axios.post(this.Global.BASE_URL + "/admin/login", parameter, { isLoading: false }).then(response => {
+        console.log(response)
         if (response.data.status == 200) {
           localStorage.setItem("baseUser", JSON.stringify(response.data.data));
           this.$store.commit('changeLogin', JSON.stringify(response.data.data));
           this.loading = false;
           this.$router.push({ path: "/dashboard" });
+          } else {
+            this.$notify.error({ title: '错误',message: response.data});
+            this.loading = false;
         }
       }).catch(response => {
         this.loading = false;
-        console.log(response);
       });
 
     }
@@ -195,17 +193,6 @@ $light_gray: #eee;
     margin: 0 auto;
     overflow: hidden;
   }
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
-  }
-
   .svg-container {
     color: $dark_gray;
     vertical-align: middle;

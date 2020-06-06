@@ -13,14 +13,29 @@ const store = new Vuex.Store({
             withoutAnimation: false
         },
         device: 'desktop',
-        // 登陆状态
-        baseUser: localStorage.getItem("baseUser") ? JSON.parse(localStorage.getItem("baseUser")) : ""
+        baseUser: localStorage.getItem("baseUser") ? JSON.parse(localStorage.getItem("baseUser")) : "", // 登陆状态
+        productBaseData: "", //添加商品参数
+        updataProductBaseData: null, //更改商品参,
+        orderExchangeData: null
     },
     mutations: {
         // 登陆状态
         changeLogin(state, data) {
             state.baseUser = JSON.parse(data)
         },
+        // 添加商品参数
+        changeProductBaseData(state, data) {
+            state.productBaseData = JSON.parse(data)
+        },
+        // 更改商品参数
+        changeUpdataProductBaseData(state, data) {
+            state.updataProductBaseData = JSON.parse(data)
+        },
+        changeUpdataOrderExchangeData(state, data) {
+            state.orderExchangeData = JSON.parse(data)
+        },
+
+
         TOGGLE_SIDEBAR: state => {
             state.sidebar.opened = !state.sidebar.opened
             state.sidebar.withoutAnimation = false

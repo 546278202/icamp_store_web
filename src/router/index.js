@@ -1,22 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router)
-
-/* Layout */
+    /* Layout */
 import Layout from '@/layout'
-
 export const constantRoutes = [
     // 登陆
     {
         path: '/login',
-        component: () => import('@/views/login/index'),
-        hidden: true
-    },
-    // 404
-    {
-        path: '/404',
-        component: () => import('@/views/404'),
+        component: () =>
+            import ('@/views/login/index'),
         hidden: true
     },
     // 默认首页
@@ -27,9 +19,34 @@ export const constantRoutes = [
         children: [{
             path: 'dashboard',
             name: 'dashboard',
-            component: () => import('@/views/dashboard/index'),
-            meta: { title: '首页', icon: 'dashboard', auth: true }
+            component: () =>
+                import ('@/views/dashboard/index'),
+            meta: { title: '首页管理', icon: 'dashboard', auth: true }
         }]
+    },
+    // status
+    {
+        path: '/status',
+        component: Layout,
+        redirect: '/status',
+        name: 'base',
+        meta: { title: '状态码', icon: 'documentation' },
+        hidden: true,
+        children: [{
+                path: '404',
+                name: '404',
+                component: () =>
+                    import ('@/views/status/404'),
+                meta: { title: '404', icon: 'dashboard', auth: true }
+            },
+            {
+                path: '401',
+                name: '401',
+                component: () =>
+                    import ('@/views/status/401'),
+                meta: { title: '401', icon: 'dashboard', auth: true }
+            }
+        ]
     },
     // 基本信息
     {
@@ -38,261 +55,323 @@ export const constantRoutes = [
         redirect: '/base',
         name: 'base',
         meta: { title: '基本信息', icon: 'documentation' },
-        children: [
-            {
+        children: [{
                 path: 'accountset',
                 name: 'accountset',
-                component: () => import('@/views/base/accountset'),
+                component: () =>
+                    import ('@/views/base/accountset'),
                 meta: { title: '账户设置', icon: '', auth: true }
             },
             {
                 path: 'system',
                 name: 'system',
-                component: () => import('@/views/base/system'),
+                component: () =>
+                    import ('@/views/base/system'),
                 meta: { title: '系统信息', icon: '', auth: true }
             },
             {
                 path: 'log',
                 name: 'log',
-                component: () => import('@/views/base/log'),
+                component: () =>
+                    import ('@/views/base/log'),
                 meta: { title: '登陆日志', icon: '', auth: true }
             }
         ]
     },
-    // 商品
+    // 商品管理
     {
-        path: '/shop',
+        path: '/pms',
         component: Layout,
-        redirect: '/shop',
-        name: 'shop',
-        meta: { title: '商品', icon: 'shopping' },
-        children: [
-            {
-                path: 'list',
-                name: 'list',
-                component: () => import('@/views/shop/list'),
-                meta: { title: '商品列表', icon: '', auth: true }
+        redirect: '/pms/product',
+        name: 'pms',
+        meta: { title: '营会管理', icon: 'shopping' },
+        children: [{
+                path: 'product',
+                name: 'product',
+                component: () =>
+                    import ('@/views/pms/product/index'),
+                meta: { title: '营会列表', icon: '', auth: true }
             },
             {
-                path: 'addshop1',
-                name: 'addshop1',
-                component: () => import('@/views/shop/addshop/addshop1'),
-                meta: { title: '添加商品', icon: '', auth: true },
+                path: 'addProduct',
+                name: 'addProduct',
+                component: () =>
+                    import ('@/views/pms/product/add'),
+                meta: { title: '添加营会', icon: '', auth: true, },
+                hidden: true
 
             },
             {
-                path: 'addshop2',
-                name: 'addshop2',
-                component: () => import('@/views/shop/addshop/addshop2'),
+                path: 'updateProduct',
+                name: 'updateProduct',
+                component: () =>
+                    import ('@/views/pms/product/update'),
+                meta: { title: '修改营会', icon: '', auth: true, },
+                hidden: true
             },
             {
-                path: 'shoptype',
-                name: 'shoptype',
-                component: () => import('@/views/shop/shoptype'),
-                meta: { title: '商品类型', icon: '', auth: true }
+                path: 'productCate',
+                name: 'productCate',
+                component: () =>
+                    import ('@/views/pms/productCate/index'),
+                meta: { title: '营会类型', icon: '', auth: true }
+            },
+            {
+                path: 'tags',
+                name: 'tags',
+                component: () =>
+                    import ('@/views/pms/tags/index'),
+                meta: { title: '标签', icon: '', auth: true },
+                hidden: true
             }
-        ]
+        ],
     },
-    // 订单
+    // 订单管理
     {
-        path: '/order',
+        path: '/oms',
         component: Layout,
-        redirect: '/order',
-        name: 'order',
-        meta: { title: '订单', icon: 'list' },
-        children: [
-            {
-                path: 'orderlist',
-                name: 'orderlist',
-                component: () => import('@/views/order/orderlist'),
-                meta: { title: '订单列表', auth: true }
+        redirect: '/oms/order',
+        name: 'oms',
+        meta: { title: '订单管理', icon: 'list' },
+        children: [{
+                path: 'order',
+                name: 'order',
+                component: () =>
+                    import ('@/views/oms/order/index'),
+                meta: { title: '订单列表', icon: '', auth: true }
             },
             {
-                path: 'orderdetail',
-                name: 'orderdetail',
-                component: () => import('@/views/order/orderdetail'),
+                path: 'orderDetail',
+                name: 'orderDetail',
+                component: () =>
+                    import ('@/views/oms/order/orderDetail'),
+                meta: { title: '订单详情' },
+                hidden: true
             },
             {
-                path: 'refund',
-                name: 'refund',
-                component: () => import('@/views/order/refund'),
-                meta: { title: '退款申请', auth: true }
+                path: 'deliverOrderList',
+                name: 'deliverOrderList',
+                component: () =>
+                    import ('@/views/oms/order/deliverOrderList'),
+                meta: { title: '发货列表' },
+                hidden: true
+            },
+            {
+                path: 'orderSetting',
+                name: 'orderSetting',
+                component: () =>
+                    import ('@/views/oms/order/setting'),
+                meta: { title: '订单设置', icon: '' }
+            },
+            {
+                path: 'orderExchange',
+                name: 'orderExchange',
+                component: () =>
+                    import ('@/views/oms/order/exchange'),
+                meta: { title: '申请换货' },
+                hidden: true
+            },
+            {
+                path: 'returnApply',
+                name: 'returnApply',
+                component: () =>
+                    import ('@/views/oms/apply/index'),
+                meta: { title: '售后申请处理', icon: '' }
+            },
+            {
+                path: 'returnReason',
+                name: 'returnReason',
+                component: () =>
+                    import ('@/views/oms/apply/reason'),
+                meta: { title: '退款原因设置', icon: '' }
+            },
+            {
+                path: 'returnApplyDetail',
+                name: 'returnApplyDetail',
+                component: () =>
+                    import ('@/views/oms/apply/applyDetail'),
+                meta: { title: '退款原因详情' },
+                hidden: true
+            },
+            {
+                path: 'postponeApplyDetail',
+                name: 'postponeApplyDetail',
+                component: () =>
+                    import ('@/views/oms/apply/postponeDetail'),
+                meta: { title: '延期原因详情' },
+                hidden: true
+            },
+            {
+                path: 'exchangeApplyDetail',
+                name: 'exchangeApplyDetail',
+                component: () =>
+                    import ('@/views/oms/apply/exchangeDetail'),
+                meta: { title: '更换原因详情' },
+                hidden: true
             }
-
         ]
     },
-    // 用户
-    {
-        path: '/user',
-        component: Layout,
-        redirect: '/user',
-        name: 'user',
-        meta: { title: '用户', icon: 'user' },
-        children: [
-            {
-                path: 'userlist',
-                name: 'userlist',
-                component: () => import('@/views/user/userlist'),
-                meta: { title: '用户列表', icon: '', auth: true }
-            },
-            {
-                path: 'tablist',
-                name: 'tablist',
-                component: () => import('@/views/user/tablist'),
-                meta: { title: '标签管理', icon: '', auth: true }
-            }
-        ]
-    },
-    // 内容
+    // 内容管理
     {
         path: '/content',
         component: Layout,
-        redirect: '/content',
+        redirect: '/content/product',
         name: 'content',
-        meta: { title: '内容', icon: 'content' },
-        children: [
-            {
-                path: 'contentlist',
-                name: 'contentlist',
-                component: () => import('@/views/content/contentlist'),
+        meta: { title: '内容管理', icon: 'content' },
+        children: [{
+                path: 'product',
+                name: 'product',
+                component: () =>
+                    import ('@/views/content/product/index'),
                 meta: { title: '内容列表', icon: '', auth: true }
             },
             {
-                path: 'type_admin',
-                name: 'type_admin',
-                component: () => import('@/views/content/type_admin'),
-                meta: { title: '分类管理', icon: '', auth: true }
-            }
-        ]
-    },
-    // 权限
-    {
-        path: '/authority',
-        component: Layout,
-        redirect: '/authority/partment/setauthority',
-        name: 'Nested',
-        meta: {
-            title: '权限',
-            icon: 'nested'
-        },
-        children: [
-            {
-                // 部门管理
-                path: 'partment',
-                component: () => import('@/views/authority/partment/index'), 
-                name: 'partment',
-                meta: { title: '部门管理' },
-                redirect: '/authority/partment/setpartment',
-                children: [
-                    {
-                        path: 'setpartment',
-                        component: () => import('@/views/authority/partment/setpartment'),
-                        name: 'setpartment',
-                        meta: { title: '部门管理' }
-                    },
-                    // {
-                    //     path: 'setauthority',
-                    //     component: () => import('@/views/authority/partment/setauthority'),
-                    //     name: 'setauthority',
-                    //     meta: { title: '权限管理' }
-                    // }
-                ]
+                path: 'addProduct',
+                name: 'addProduct',
+                component: () =>
+                    import ('@/views/content/product/add'),
+                meta: { title: '添加内容', icon: '', auth: true, },
+                hidden: true
+
             },
             {
-                // 成员管理
-                path: 'member',
-                component: () => import('@/views/authority/member/index'), 
-                name: 'member',
-                meta: { title: '成员管理' },
-                redirect: '/authority/member/setmember',
-                children: [
-                    {
-                        path: 'setmember',
-                        component: () => import('@/views/authority/member/setmember'),
-                        name: 'setmember',
-                        meta: { title: '成员管理' }
-                    },
-                    {
-                        path: 'addmember',
-                        component: () => import('@/views/authority/member/addmember'),
-                        name: 'addmember',
-                        meta: { title: '添加成员' }
-                    }
-                ]
+                path: 'updateProduct',
+                name: 'updateProduct',
+                component: () =>
+                    import ('@/views/content/product/update'),
+                meta: { title: '修改内容', icon: '', auth: true, },
+                hidden: true
+            },
+            {
+                path: 'productCate',
+                name: 'productCate',
+                component: () =>
+                    import ('@/views/content/productCate/index'),
+                meta: { title: '内容类型', icon: '', auth: true }
+            },
+            {
+                path: 'tags',
+                name: 'tags',
+                component: () =>
+                    import ('@/views/content/tags/index'),
+                meta: { title: '内容标签', icon: '', auth: true },
+                hidden: true
             }
-
         ],
     },
+    // 用户管理
+    {
+        path: '/ums',
+        component: Layout,
+        redirect: '/ums/user',
+        name: 'ums',
+        meta: { title: '用户管理', icon: 'user' },
+        children: [{
+                path: 'user',
+                name: 'user',
+                component: () =>
+                    import ('@/views/ums/user'),
+                meta: { title: '用户列表', icon: '', auth: true }
+            },
+            {
+                path: 'userDetail',
+                name: 'userDetail',
+                component: () =>
+                    import ('@/views/ums/user/userDetail'),
+                meta: { title: '用户详情' },
+                hidden: true
+            },
+            {
+                path: 'userSet',
+                name: 'userSet',
+                component: () =>
+                    import ('@/views/ums/user/userSet'),
+                meta: { title: '编辑' },
+                hidden: true
+            },
+            {
+                path: 'camper',
+                name: 'camper',
+                component: () =>
+                    import ('@/views/ums/camper'),
+                meta: { title: '营员列表', icon: '', auth: true, },
+
+            }
+        ],
+    },
+    // 用户管理
+    // {
+    //     path: '/user',
+    //     component: Layout,
+    //     redirect: '/user',
+    //     name: 'user',
+    //     meta: { title: '用户管理', icon: 'user' },
+    //     children: [{
+    //             path: 'index',
+    //             name: 'index',
+    //             component: () =>
+    //                 import ('@/views/user/index'),
+    //             meta: { title: '用户列表', icon: '', auth: true }
+    //         },
+    //         {
+    //             path: 'userDetail',
+    //             name: 'userDetail',
+    //             component: () =>
+    //                 import ('@/views/user/userDetail'),
+    //             meta: { title: '用户详情' },
+    //             hidden: true
+    //         },
+    //         {
+    //             path: 'userSet',
+    //             name: 'userSet',
+    //             component: () =>
+    //                 import ('@/views/user/userSet'),
+    //             meta: { title: '编辑' },
+    //             hidden: true
+    //         },
+    //     ]
+    // },
 
     // 权限管理
-    // {
-    //     path: '/authorityadmin',
-    //     component: Layout,
-    //     redirect: '/authorityadmin',
-    //     name: 'authorityadmin',
-    //     meta: { title: '权限管理', icon: 'edit' },
-    //     children: [
-    //         {
-    //             path: 'setmodule',
-    //             name: 'setmodule',
-    //             component: () => import('@/views/authorityadmin/setmodule'),
-    //             meta: { title: '部门设置', icon: '', auth: true }
-    //         },
-    //         {
-    //             path: 'member',
-    //             name: 'member',
-    //             component: () => import('@/views/authorityadmin/member'),
-    //             meta: { title: '成员设置', icon: '', auth: true }
-    //         },
-    //         // {
-    //         //     path: 'setauthority',
-    //         //     name: 'setauthority',
-    //         //     component: () => import('@/views/authorityadmin/setauthority'),
-    //         //     meta: { title: '人员设置', icon: '', auth: true }
-    //         // },
-    //     ]
-    // },
-
-    // // 系统管理
-    // {
-    //     path: '/systemadmin',
-    //     component: Layout,
-    //     redirect: '/systemadmin',
-    //     name: 'systemadmin',
-    //     meta: { title: '系统管理', icon: 'edit' },
-    //     children: [
-    //         {
-    //             path: 'isoff',
-    //             name: 'isoff',
-    //             component: () => import('@/views/systemadmin/isoff'),
-    //             meta: { title: '开关设置', icon: '', auth: true }
-    //         },
-    //         {
-    //             path: 'paramer',
-    //             name: 'paramer',
-    //             component: () => import('@/views/systemadmin/paramer'),
-    //             meta: { title: '参数设置', icon: '', auth: true }
-    //         },
-    //         {
-    //             path: 'xuandan',
-    //             name: 'xuandan',
-    //             component: () => import('@/views/systemadmin/xuandan'),
-    //             meta: { title: '选单设置', icon: '', auth: true }
-    //         }
-    //     ]
-    // },
-
+    {
+        path: '/authorityadmin',
+        component: Layout,
+        redirect: '/authorityadmin',
+        name: 'authorityadmin',
+        meta: { title: '权限管理', icon: 'edit' },
+        children: [{
+                path: 'setpartment',
+                name: 'setpartment',
+                component: () =>
+                    import ('@/views/authorityadmin/setpartment'),
+                meta: { title: '部门设置', icon: '', auth: true }
+            },
+            {
+                path: 'setstaff',
+                name: 'setstaff',
+                component: () =>
+                    import ('@/views/authorityadmin/setstaff'),
+                meta: { title: '成员设置', icon: '', auth: true }
+            },
+            {
+                path: 'setauthority',
+                name: 'setauthority',
+                component: () =>
+                    import ('@/views/authorityadmin/setauthority'),
+                // meta: { title: '人员设置', icon: '', auth: true }
+            },
+        ]
+    },
     // 404 
-    { path: '*', redirect: '/404', hidden: true }
+    { path: '*', redirect: '/status/404', hidden: false }
 ]
 
 const createRouter = () => new Router({
     scrollBehavior: () => ({ y: 0 }),
-    routes: constantRoutes
+    routes: constantRoutes,
+    // mode: 'history'
 })
-
 const router = createRouter()
-
 export function resetRouter() {
     const newRouter = createRouter()
     router.matcher = newRouter.matcher

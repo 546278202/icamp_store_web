@@ -1,8 +1,8 @@
 {
-  "name": "ideas_admin",
+  "name": "icamp_store_web",
   "version": "4.1.0",
   "description": "A vue admin template with Element UI & axios & iconfont & permission control & lint",
-  "author": "Pan <panfree23@gmail.com>",
+  "author": "wanlong <546278202@qq.com>",
   "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",
@@ -16,13 +16,14 @@
   "dependencies": {
     "axios": "^0.18.0",
     "echarts": "^4.2.1",
-    "element-ui": "2.7.2",
+    "element-ui": "^2.8.2",
     "file-saver": "^2.0.1",
     "js-cookie": "2.2.0",
     "js-md5": "^0.7.3",
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
     "path-to-regexp": "2.4.0",
+    "v-distpicker": "^1.2.1",
     "vue": "2.6.10",
     "vue-axios": "^2.1.4",
     "vue-count-to": "^1.0.13",

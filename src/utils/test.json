@@ -1,0 +1,157 @@
+{
+    "goodsName": "2019经典综合营",
+    "goodsBrief": "简介:good,good,very good",
+    "keyWords": "综合营",
+    "goodsDesc": "商品详情",
+    "productionPlace": "北戴河",
+    "minTargetAge": 4,
+    "maxTargetAge": 12,
+    "serialNo": 1,
+    "galleries": [
+        {
+            "fileId": 19,
+            "isCover": true,
+            "isSlide": true,
+            "isGallery": false
+        },
+        {
+            "fileId": 20,
+            "isCover": false,
+            "isSlide": true,
+            "isGallery": true
+        },
+        {
+            "fileId": 21,
+            "isCover": false,
+            "isSlide": true,
+            "isGallery": true
+        }
+    ],
+    "categories": [
+        {
+            "id": 68
+        },
+        {
+            "id": 70
+        }
+    ],
+    "tags": [
+        {
+            "tagId": 2
+        },
+        {
+            "tagId": 3
+        }
+    ],
+    "goodsAttributes": [
+        {
+            "name": "营期",
+            "selectType": 0,
+            "remark": "备注信息",
+            "values": [
+                {
+                    "name": "ceshi",
+                    "attributeValue": "OP-RC-BC-19-P12",
+                    "sellPrice": 12800,
+                    "starDate": "2019 - 07 - 05",
+                    "endDate": "2019 - 07 - 20",
+                    "stockQty": 50,
+                    "warnStockQty": 15,
+                    "remark": "备注信息",
+                    "goodsDesc": "商品属性详情",
+                    "galleries": [
+                        {
+                            "fileId": 23,
+                            "isCover": true,
+                            "isSlide": true,
+                            "isGallery": false
+                        },
+                        {
+                            "fileId": 24,
+                            "isCover": false,
+                            "isSlide": true,
+                            "isGallery": true
+                        }
+                    ]
+                },
+                {
+                    "attributeValue": "OP-RC-BC-19-P12",
+                    "sellPrice": 12800,
+                    "starDate": "2019 - 07 - 05",
+                    "endDate": "2019 - 07 - 20",
+                    "stockQty": 50,
+                    "warnStockQty": 15,
+                    "remark": "备注信息",
+                    "goodsDesc": "商品属性详情",
+                    "galleries": [
+                        {
+                            "fileId": 23,
+                            "isCover": true,
+                            "isSlide": true,
+                            "isGallery": false
+                        },
+                        {
+                            "fileId": 24,
+                            "isCover": false,
+                            "isSlide": true,
+                            "isGallery": true
+                        }
+                    ]
+                },
+                {
+                    "attributeValue": "OP-RC-BC-19-P12",
+                    "sellPrice": 12800,
+                    "starDate": " 2019 - 07 - 05",
+                    "endDate": "2019 - 07 - 20",
+                    "stockQty": 50,
+                    "warnStockQty": 15,
+                    "remark": "备注信息",
+                    "goodsDesc": "商品属性详情",
+                    "galleries": [
+                        {
+                            "fileId": 23,
+                            "isCover": true,
+                            "isSlide": true,
+                            "isGallery": false
+                        },
+                        {
+                            "fileId": 24,
+                            "isCover": false,
+                            "isSlide": true,
+                            "isGallery": true
+                        }
+                    ]
+                },
+                {
+                    "attributeValue": "OP-RC-BC-19-P12",
+                    "sellPrice": 12800,
+                    "starDate": "2019 - 07 - 05",
+                    "endDate": "2019 - 07 - 20",
+                    "stockQty": 50,
+                    "warnStockQty": 15,
+                    "remark": "备注信息",
+                    "goodsDesc": "商品属性详情",
+                    "galleries": [
+                        {
+                            "fileId": 23,
+                            "isCover": true,
+                            "isSlide": true,
+                            "isGallery": false
+                        },
+                        {
+                            "fileId": 24,
+                            "isCover": false,
+                            "isSlide": true,
+                            "isGallery": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "服务",
+            "selectType": 1,
+            "remark": "备注信息"
+        }
+    ]
+}

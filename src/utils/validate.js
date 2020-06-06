@@ -1,6 +1,7 @@
 /**
- * Created by PanJiaChen on 16/11/18.
+ * Created by wanlong on 19/08/18.
  */
+
 
 /**
  * @param {string} path
@@ -9,11 +10,15 @@
 export function isExternal(path) {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
-
-/**
- * @param {string} str
- * @returns {Boolean}
- */
 export function validUsername(str) {
-  return str.trim()
+  return str
+}
+export function validDeptId(str) {
+  return str
+}
+export function validPhone(str) {
+  return str
+}
+export function validLength(str) {
+  
 }

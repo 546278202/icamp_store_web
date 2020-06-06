@@ -15,12 +15,17 @@
           <router-link to="/">
             <el-dropdown-item>首页</el-dropdown-item>
           </router-link>
+
+          <el-dropdown-item divided>
+            <span style="display:block;" @click="editPassword">修改密码</span>
+          </el-dropdown-item>
           <el-dropdown-item divided>
             <span style="display:block;" @click="getConfirm">退出登陆</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+
   </div>
 </template>
 
@@ -28,6 +33,9 @@
 import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
+import JSEncrypt from "jsencrypt/bin/jsencrypt"; //rsa
+import md5 from "js-md5"; //md5
+
 export default {
   components: {
     Breadcrumb,
@@ -35,6 +43,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       helloName: "Hello , " + this.$store.state.baseUser.userName
     }
   },
@@ -42,17 +51,36 @@ export default {
     ...mapGetters(["sidebar"])
   },
   methods: {
+    //   修改密码
+    editPassword() {
+      this.$prompt('请输入密码', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputErrorMessage: '密码不正确'
+      }).then(({ value }) => {
+        if (value) {
+          let paramer = md5(this.$store.state.baseUser.userName + md5(value))
+          this.axios.patch(this.Global.BASE_URL + "/emp/pwd", paramer).then(response => {
+            if (response.data.status == 200) {
+              this.$message({
+                message: '恭喜你，这是一条成功消息',
+                type: 'success'
+              })
+              console.log(response)
+            }
+          })
+        }
+      })
+    },
     // 询问框
     getConfirm() {
       this.$confirm("您确定要退出?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
+      }).then(() => {
+        this.logout();
       })
-        .then(() => {
-          this.logout();
-        })
-        .catch(() => { });
     },
     toggleSideBar() {
       this.$store.dispatch("toggleSideBar");
@@ -60,18 +88,15 @@ export default {
     // 退出登录
     logout() {
       let baseUser = this.$store.state.baseUser
-      this.axios.get(this.Global.BASE_URL + "/logout", {        params: {},
-      }).then(response => {
+      this.axios.get(this.Global.BASE_URL + "/logout").then(response => {
         if (response.status == 200) {
           localStorage.setItem("baseUser", "");
           this.$store.state.baseUser = "";
           this.$router.push({ path: "/login" });
         }
       })
-        .catch(response => {
-          console.log(response);
-        });
-    }
+    },
+
   }
 };
 </script>
